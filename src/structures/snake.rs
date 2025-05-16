@@ -7,7 +7,7 @@ pub struct Snake {
 }
 
 impl Snake {
-    pub fn new(&self) -> Snake {
+    pub fn new() -> Snake {
         let head = Point { x: (4, 5), y: 5 };
         let second = Point { x: (4, 5), y: 4 };
         let third = Point { x: (4, 5), y: 3 };

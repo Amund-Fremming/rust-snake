@@ -1,7 +1,10 @@
+use engine::game::Game;
+
 mod engine;
 mod structures;
 mod ui;
 
 fn main() {
-    engine::game::run();
+    let mut game = Game::new();
+    game.run();
 }

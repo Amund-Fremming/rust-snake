@@ -1,37 +1,68 @@
 use crate::{
-    structures::Direction,
+    structures::{Direction, board::Board, snake::Snake},
     ui::{cli::read_arrow, renderer::Renderer},
 };
-use std::{sync::mpsc, thread, time::Duration};
+use std::{
+    sync::mpsc::{self, Receiver, Sender},
+    thread::{self},
+    time::Duration,
+};
 
-fn game_loop() {
-    let (sender, reciever) = mpsc::channel();
-    let sender_clone = sender.clone();
+pub struct Game {
+    board: Board,
+    snake: Snake,
+    event_reciever: Receiver<Direction>,
+}
 
-    let thread = thread::spawn(move || {
-        loop {
-            if let Some(value) = read_arrow() {
-                sender_clone.send(value).unwrap();
+impl Game {
+    pub fn new() -> Game {
+        let (sender, reciever) = mpsc::channel();
+        let sender_clone = sender.clone();
+
+        thread::spawn(move || {
+            loop {
+                if let Some(value) = read_arrow() {
+                    sender_clone.send(value).unwrap();
+                }
             }
-        }
-    });
+        });
 
-    let renderer = Renderer::new();
-    loop {
-        match reciever.recv_timeout(Duration::from_secs(1)) {
-            Ok(key) if key == Direction::Escape => break,
-            Ok(key) => renderer.update_move(&key),
-            Err(mpsc::RecvTimeoutError::Timeout) => continue,
-            Err(error) => {
-                eprintln!("Error: {}", error);
-                break;
+        Game {
+            board: Board::new(&20),
+            snake: Snake::new(),
+            event_reciever: reciever,
+        }
+    }
+
+    pub fn run(&mut self) {
+        let renderer = Renderer::new();
+        loop {
+            match self.event_reciever.recv_timeout(Duration::from_secs(1)) {
+                Ok(dir) if dir == Direction::Escape => break,
+                Ok(dir) => {
+                    renderer.update_move(&dir);
+                    self.handle_move(&dir);
+                }
+                Err(mpsc::RecvTimeoutError::Timeout) => continue,
+                Err(error) => {
+                    eprintln!("Error: {}", error);
+                    break;
+                }
             }
         }
     }
 
-    drop(thread);
-}
+    fn handle_move(&self, direction: &Direction) {
+        print!("");
+        /*
+           er neste mat
+               spis / flytt
 
-pub fn run() {
-    game_loop();
+           hvis flytt
+               er den utenfor?
+                   ferdig
+               ikke utenfor
+                   neste runde
+        */
+    }
 }

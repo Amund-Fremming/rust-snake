@@ -3,4 +3,5 @@
 git add .
 git commit -m "save"
 git push
-echo "\nShipped to github"
+echo ""
+echo "Shipped to github"

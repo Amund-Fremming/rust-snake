@@ -1,5 +1,5 @@
 #[derive(Debug, PartialEq)]
-pub enum Key {
+pub enum Direction {
     Up,
     Down,
     Left,

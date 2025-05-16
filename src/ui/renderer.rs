@@ -1,9 +1,7 @@
-use crate::structures::{point::Point, *};
+use crate::structures::Direction;
 use std::io::{Write, stdout};
 
-pub struct Renderer {
-    pub moving_direction: (i8, i8),
-}
+pub struct Renderer {}
 
 impl Renderer {
     pub fn new() -> Renderer {
@@ -12,27 +10,25 @@ impl Renderer {
         println!("  Press esc to exit");
         println!("");
         println!(" - - - - - - - - - - ");
-        println!("|                   |");
-        println!("|                   |");
-        println!("|                   |");
-        println!("|                   |");
-        println!("|     █             |");
-        println!("|     █             |");
-        println!("|     █             |");
-        println!("|                   |");
-        println!("|                   |");
-        println!("|                   |");
+        println!("|                    |");
+        println!("|                    |");
+        println!("|                    |");
+        println!("|                    |");
+        println!("|    ██              |");
+        println!("|    ██              |");
+        println!("|    ██              |");
+        println!("|                    |");
+        println!("|                    |");
+        println!("|                    |");
         println!(" - - - - - - - - - - ");
         println!("");
-        print!("Moving: {:?}", Key::Up);
+        print!("Moving: {:?}", Direction::Up);
         stdout().flush().unwrap();
 
-        Renderer {
-            moving_direction: (0, 1),
-        }
+        Renderer {}
     }
 
-    pub fn update_move(&self, last_move: &Key) {
+    pub fn update_move(&self, last_move: &Direction) {
         print!("\r\x1b[2K");
         print!("\rMoving: {:?}", last_move);
         stdout().flush().unwrap();

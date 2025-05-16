@@ -1,4 +1,5 @@
+#[derive(PartialEq)]
 pub struct Point {
-    x: i16,
-    Y: i16,
+    pub x: (i32, i32),
+    pub y: i32,
 }

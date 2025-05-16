@@ -1,6 +1,7 @@
 pub mod board;
-pub mod key;
+pub mod direction;
 pub mod point;
 pub mod snake;
 
-pub use key::Key;
+pub use direction::Direction;
+pub use point::Point;

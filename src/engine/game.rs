@@ -1,5 +1,5 @@
 use crate::{
-    structures::Key,
+    structures::Direction,
     ui::{cli::read_arrow, renderer::Renderer},
 };
 use std::{sync::mpsc, thread, time::Duration};
@@ -19,7 +19,7 @@ fn game_loop() {
     let renderer = Renderer::new();
     loop {
         match reciever.recv_timeout(Duration::from_secs(1)) {
-            Ok(key) if key == Key::Escape => break,
+            Ok(key) if key == Direction::Escape => break,
             Ok(key) => renderer.update_move(&key),
             Err(mpsc::RecvTimeoutError::Timeout) => continue,
             Err(error) => {

@@ -39,7 +39,7 @@ impl Game {
         loop {
             renderer.render_game(&self.board, &self.snake);
 
-            match self.event_reciever.recv_timeout(Duration::from_secs(1)) {
+            match self.event_reciever.recv_timeout(Duration::from_millis(500)) {
                 Ok(dir) if dir == Direction::Escape => break,
                 Ok(dir) => {
                     renderer.update_move(&dir);
